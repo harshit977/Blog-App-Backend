@@ -21,7 +21,7 @@ app.get('/',(req,res)=>{
 });
 
 
-require('./route')(app);
+require('./routes/route')(app);
 
 const Port=3001;
 
