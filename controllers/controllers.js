@@ -41,9 +41,9 @@ exports.getone=(req,res)=> {
 
 //find blog by author
 exports.getbyauthor=(req,res)=> {
-    Blog.find({author: req.body.author})
+    Blog.find({author:req.params.author})
     .then((blog) => {
-       if(blog.length === 0) return res.status(404).json({"msg":"Blog with given author Not Found"});
+       if(blog.length===0) return res.status(404).json({"msg":"Blog with given author name Not Found"});
        res.statusCode = 200;
        res.setHeader('Content-Type','application/json');
        res.json(blog);
@@ -55,10 +55,10 @@ exports.getbyauthor=(req,res)=> {
 
 //find blog by title
 exports.getbytitle=(req,res)=>{
-    Blog.find({title:req.body.title})
+    Blog.find({title:req.params.title})
     .then((blog)=>{
         if(blog.length===0) return res.status(404).json({"msg":"Blog with given title Not Found"})
-        res.statusCode(200);
+        res.statusCode=200;
         res.json(blog);
     })
     .catch((err)=>{
@@ -68,10 +68,10 @@ exports.getbytitle=(req,res)=>{
 
 //find blog by description
 exports.getbydesc=(req,res)=>{
-    Blog.find({desc:req.body.desc})
+    Blog.find({desc:req.params.desc})
     .then((blog)=>{
         if(blog.length===0) return res.status(404).json({"msg":"Blog with given description Not Found"})
-        res.statusCode(200);
+        res.statusCode=200;
         res.json(blog);
     })
     .catch((err)=>{
