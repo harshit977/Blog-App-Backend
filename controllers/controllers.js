@@ -1,15 +1,19 @@
 const Blog=require('../model/model');
 
+//get all blogs
 exports.getall=(req,res)=>{
      Blog.find({})
-     .then((Blog) => {
+     .then((Blogs) => {
         res.statusCode = 200;
         res.setHeader('Content-Type','application/json');
-        res.json(Blog);
-    }, (err) => next(err))
-    .catch((err) => next(err));
+        res.json(Blogs);
+    })
+    .catch((err)=>{
+        if(err) return res.status(500).json(err);
+    })
 }
 
+//create a new blog
 exports.create=(req,res)=>{
     const newblog=new Blog({
         title:req.body.title,
@@ -35,8 +39,48 @@ exports.getone=(req,res)=> {
     })
 }
 
-//to update a blog
+//find blog by author
+exports.getbyauthor=(req,res)=> {
+    Blog.find({author: req.body.author})
+    .then((blog) => {
+       if(blog.length === 0) return res.status(404).json({"msg":"Blog with given author Not Found"});
+       res.statusCode = 200;
+       res.setHeader('Content-Type','application/json');
+       res.json(blog);
+   })
+   .catch((err) => {
+    if(err) res.status(500).json(err);
+   });
+}
 
+//find blog by title
+exports.getbytitle=(req,res)=>{
+    Blog.find({title:req.body.title})
+    .then((blog)=>{
+        if(blog.length===0) return res.status(404).json({"msg":"Blog with given title Not Found"})
+        res.statusCode(200);
+        res.json(blog);
+    })
+    .catch((err)=>{
+        if(err) res.status(500).json(err);
+    })
+}
+
+//find blog by description
+exports.getbydesc=(req,res)=>{
+    Blog.find({desc:req.body.desc})
+    .then((blog)=>{
+        if(blog.length===0) return res.status(404).json({"msg":"Blog with given description Not Found"})
+        res.statusCode(200);
+        res.json(blog);
+    })
+    .catch((err)=>{
+        if(err) res.status(500).json(err);
+    })
+}
+
+
+//to update a blog
 exports.updateone=(req,res)=>{
     if(!req.body.title||!req.body.author||!req.body.desc)
       return res.status(500).json({"msg":"fill all the fields"});
