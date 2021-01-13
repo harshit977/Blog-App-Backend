@@ -20,10 +20,14 @@ app.get('/',(req,res)=>{
     res.send("Welcome to the class");
 });
 
+app.use('*',(req,res,next)=> {
+    res.status(404).json({"msg":"Not Found"});
+});
+
 
 require('./routes/route')(app);
 
-const Port=3001;
+const Port=process.env.PORT||3001;
 
 app.listen(Port,(err)=>{
     if(err) console.log(err);
