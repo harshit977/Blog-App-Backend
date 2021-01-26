@@ -10,7 +10,7 @@ exports.getall=async(req,res)=>{
     })
     .catch((err)=>{
         if(err) return res.status(500).json(err);
-    }) */
+    }) 
      let blogs;
      try {
          blogs = await Blog.find({});
@@ -20,7 +20,15 @@ exports.getall=async(req,res)=>{
     {
         if(err) return res.status(500).json(err);
     }
-    res.status(200).json(blogs);
+    res.status(200).json(blogs);*/
+
+    Blog.find().sort({updatedAt:'desc'})
+        .then((data)=>{
+            res.status(200).json(data);
+        })
+        .catch((err)=>{
+            if(err) res.status(500).json(err);
+        });
 }
 
 //create a new blog
